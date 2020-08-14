@@ -1,6 +1,7 @@
 const mongoose = require('../db/connection');
 
 const VideoSchema = new mongoose.Schema({
+    artist: {type: String, required: true},
     title: {type: String, required: true},
     url: {type: String, required: true},
     votes: {
