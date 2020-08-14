@@ -5,8 +5,8 @@ const VideoSchema = new mongoose.Schema({
     title: {type: String, required: true},
     url: {type: String, required: true},
     votes: {
-        upvote: {type: Number, default: 0},
-        downvote: {type: Number, default: 0}
+        up: {type: Number, default: 0},
+        down: {type: Number, default: 0}
     },
     genre: {type: String, required: true}
 });

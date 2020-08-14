@@ -1,42 +1,26 @@
 [
-    {
-        "artist": "Vampire Weekend",
-        "title": "A-Punk",
-        "url": "https://www.youtube.com/embed/_XC2mqcMMGQ",
-        "votes": {
-            "upvotes": "",
-            "downvotes": ""
-        },
-        "genre": "Rock"
-    },
-    {
-        "artist": "Queen",
-        "title": "Bohemian Rhapsody",
-        "url": "https://www.youtube.com/embed/fJ9rUzIMcZQ",
-        "votes": {
-            "upvotes": "",
-            "downvotes": ""
-        },
-        "genre": "Rock"
-    },
-    {
-        "artist": "Shakira",
-        "title": "She Wolf",
-        "url": "https://www.youtube.com/embed/booKP974B0k",
-        "votes": {
-            "upvotes": "",
-            "downvotes": ""
-        },
-        "genre": "Pop"
-    },
-    {
-        "artist": "Red Hot Chili Peppers",
-        "title": "Can't Stop",
-        "url": "https://www.youtube.com/embed/8DyziWtkfBw",
-        "votes": {
-            "upvotes": "",
-            "downvotes": ""
-        },
-        "genre": "Rock"
-    }
+	{
+		"artist": "Vampire Weekend",
+		"title": "A-Punk",
+		"url": "https://www.youtube.com/embed/_XC2mqcMMGQ",
+		"genre": "Rock"
+	},
+	{
+		"artist": "Queen",
+		"title": "Bohemian Rhapsody",
+		"url": "https://www.youtube.com/embed/fJ9rUzIMcZQ",
+		"genre": "Rock"
+	},
+	{
+		"artist": "Shakira",
+		"title": "She Wolf",
+		"url": "https://www.youtube.com/embed/booKP974B0k",
+		"genre": "Pop"
+	},
+	{
+		"artist": "Red Hot Chili Peppers",
+		"title": "Can't Stop",
+		"url": "https://www.youtube.com/embed/8DyziWtkfBw",
+		"genre": "Rock"
+	}
 ]
