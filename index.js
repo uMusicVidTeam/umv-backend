@@ -16,6 +16,7 @@ app.get('/', (req, res) => {
 app.use('/videos', videoController);
 
 app.set('port', process.env.PORT || 8080);
+
 app.listen(app.get('port'), () => {
-	console.log(`Port: ${app.get('port')}`);
+	console.log(`✅ PORT: ${app.get('port')} 🌟`);
 });
