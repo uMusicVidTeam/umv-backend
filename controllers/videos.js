@@ -7,4 +7,46 @@ router.get('/', (req, res) => {
 	Video.find({}).then((videos) => res.json(videos));
 });
 
+router.get('/:title', (req, res) => {
+	Video.find({
+		title: { $regex: new RegExp(req.params.title, 'ig') },
+	}).then((videos) => res.json(videos));
+});
+
+router.post('/', (req, res) => {
+	let newVideo = req.body;
+	Video.create(newVideo).then(() => {
+		Video.find({}).then((allVideos) => {
+			res.json(allVideos);
+		});
+	});
+});
+
+// update
+router.put('/:title', (req, res) => {
+	let updatedVideo = req.body;
+	Video.findOneAndUpdate(
+		{ title: { $regex: new RegExp(req.params.title, 'ig') } },
+		updatedVideo,
+		{
+			new: true,
+		}
+	).then(() => {
+		Video.find({}).then((allVideos) => {
+			res.json(allVideos);
+		});
+	});
+});
+
+// delete
+router.delete('/:title', (req, res) => {
+	Video.findOneAndDelete({
+		title: { $regex: new RegExp(req.params.title, 'ig') },
+	}).then(() => {
+		Video.find({}).then((allVideos) => {
+			res.json(allVideos);
+		});
+	});
+});
+
 module.exports = router;

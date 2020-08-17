@@ -10,10 +10,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.get('/', (req, res) => {
-	res.redirect('/videos');
+	res.redirect('/api/videos');
 });
 
-app.use('/videos', videoController);
+app.use('/api/videos', videoController);
 
 app.set('port', process.env.PORT || 8080);
 
