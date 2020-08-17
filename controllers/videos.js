@@ -23,19 +23,12 @@ router.post('/', (req, res) => {
 });
 
 // update
-router.put('/:title', (req, res) => {
-	let updatedVideo = req.body;
-	Video.findOneAndUpdate(
-		{ title: { $regex: new RegExp(req.params.title, 'ig') } },
-		updatedVideo,
-		{
-			new: true,
-		}
-	).then(() => {
-		Video.find({}).then((allVideos) => {
-			res.json(allVideos);
-		});
-	});
+router.put('/:id', (req, res) => {
+	const video = req.body
+	Video.findByIdAndUpdate(req.params.id, video, {new: true})
+	.then((video) => {
+		res.json(video);
+	})
 });
 
 // delete
