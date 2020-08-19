@@ -4,42 +4,61 @@ const router = express.Router();
 const Video = require('../models/Video');
 
 router.get('/', (req, res) => {
-	Video.find({}).then((videos) => res.json(videos));
+	Job.find()
+		.then((videos) => res.json(videos))
+		.catch(next);
 });
 
-router.get('/:title', (req, res) => {
-	Video.find({
-		title: { $regex: new RegExp(req.params.title, 'ig') },
-	}).then((videos) => res.json(videos));
+router.get('/:id', (req, res, next) => {
+	Video.findById(req.params.id)
+		.then((video) => {
+			if (!video) {
+				res.sendStatus(404);
+			} else {
+				res.json(video);
+			}
+		})
+		.catch(next);
 });
 
 router.post('/', (req, res) => {
-	let newVideo = req.body;
-	Video.create(newVideo).then(() => {
-		Video.find({}).then((allVideos) => {
-			res.json(allVideos);
-		});
-	});
+	Video.create(req.body)
+		.then(() => {
+			Video.find().then((allVideos) => {
+				res.status(201).json(allVideos);
+			});
+		})
+		.catch(next);
 });
 
 // update
 router.put('/:id', (req, res) => {
-	const video = req.body
-	Video.findByIdAndUpdate(req.params.id, video, {new: true})
-	.then((video) => {
-		res.json(video);
+	Video.findOneAndUpdate({ _id: req.params.id }, req.body, {
+		new: true,
 	})
+		.then((video) => {
+			if (!video) {
+				res.sendStatus(404);
+			} else {
+				res.json(video);
+			}
+		})
+		.catch(next);
 });
 
 // delete
-router.delete('/:title', (req, res) => {
+router.delete('/:id', (req, res) => {
 	Video.findOneAndDelete({
-		title: { $regex: new RegExp(req.params.title, 'ig') },
-	}).then(() => {
-		Video.find({}).then((allVideos) => {
-			res.json(allVideos);
-		});
-	});
+		_id: req.params.id,
+	})
+		.then((video) => {
+			if (!video) {
+				res.sendStatus(404);
+			} else {
+				res.sendStatus(204);
+			}
+		})
+		.catch(next);
 });
 
 module.exports = router;
