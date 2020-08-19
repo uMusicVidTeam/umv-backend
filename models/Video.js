@@ -7,6 +7,11 @@ const VideoSchema = new mongoose.Schema(
 		url: { type: String, required: true },
 		score: { type: Number, default: 0 },
 		genre: { type: String, required: true },
+		owner: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			required: true,
+		},
 	},
 	{
 		timestamps: true,

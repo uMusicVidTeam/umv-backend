@@ -10,12 +10,14 @@ const {
 
 router.get('/', (req, res, next) => {
 	Job.find()
+		.populate('owner', 'email -_id')
 		.then((videos) => res.json(videos))
 		.catch(next);
 });
 
 router.get('/:id', handleValidateId, (req, res, next) => {
 	Video.findById(req.params.id)
+		.populate('owner')
 		.then(handleRecordExists)
 		.then((video) => res.json(video))
 		.catch(next);
