@@ -1,7 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+
 const videoController = require('./controllers/videos');
+const userController = require('./controllers/users');
 
 const app = express();
 
@@ -15,6 +17,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/videos', videoController);
+app.use('/api', userController);
+
 
 // The last middleware receives any error as its first argument
 app.use((err, req, res, next) => {
