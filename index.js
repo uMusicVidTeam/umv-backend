@@ -28,7 +28,12 @@ app.use((err, req, res, next) => {
 	res.status(statusCode).send(message);
 });
 
-const { handleErrors } = require('./middleware/custom_errors');
+const {
+	handleErrors,
+	handleValidationErrors,
+} = require('./middleware/custom_errors');
+
+app.use(handleValidationErrors);
 app.use(handleErrors);
 
 // Define a port for API to run on, if the environment

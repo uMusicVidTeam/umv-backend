@@ -3,13 +3,15 @@ const router = express.Router();
 
 const Video = require('../models/Video');
 
-router.get('/', (req, res) => {
+const { handleValidateId } = require('../middleware/custom_errors');
+
+router.get('/', (req, res, next) => {
 	Job.find()
 		.then((videos) => res.json(videos))
 		.catch(next);
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', handleValidateId, (req, res, next) => {
 	Video.findById(req.params.id)
 		.then((video) => {
 			if (!video) {
@@ -21,7 +23,7 @@ router.get('/:id', (req, res, next) => {
 		.catch(next);
 });
 
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
 	Video.create(req.body)
 		.then(() => {
 			Video.find().then((allVideos) => {
@@ -32,7 +34,7 @@ router.post('/', (req, res) => {
 });
 
 // update
-router.put('/:id', (req, res) => {
+router.put('/:id', handleValidateId, (req, res, next) => {
 	Video.findOneAndUpdate({ _id: req.params.id }, req.body, {
 		new: true,
 	})
@@ -47,7 +49,7 @@ router.put('/:id', (req, res) => {
 });
 
 // delete
-router.delete('/:id', (req, res) => {
+router.delete('/:id', handleValidateId, (req, res, next) => {
 	Video.findOneAndDelete({
 		_id: req.params.id,
 	})
