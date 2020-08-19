@@ -3,7 +3,10 @@ const router = express.Router();
 
 const Video = require('../models/Video');
 
-const { handleValidateId } = require('../middleware/custom_errors');
+const {
+	handleValidateId,
+	handleRecordExists,
+} = require('../middleware/custom_errors');
 
 router.get('/', (req, res, next) => {
 	Job.find()
@@ -13,13 +16,8 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', handleValidateId, (req, res, next) => {
 	Video.findById(req.params.id)
-		.then((video) => {
-			if (!video) {
-				res.sendStatus(404);
-			} else {
-				res.json(video);
-			}
-		})
+		.then(handleRecordExists)
+		.then((video) => res.json(video))
 		.catch(next);
 });
 
@@ -38,12 +36,9 @@ router.put('/:id', handleValidateId, (req, res, next) => {
 	Video.findOneAndUpdate({ _id: req.params.id }, req.body, {
 		new: true,
 	})
+		.then(handleRecordExists)
 		.then((video) => {
-			if (!video) {
-				res.sendStatus(404);
-			} else {
-				res.json(video);
-			}
+			res.json(video);
 		})
 		.catch(next);
 });
@@ -53,12 +48,10 @@ router.delete('/:id', handleValidateId, (req, res, next) => {
 	Video.findOneAndDelete({
 		_id: req.params.id,
 	})
-		.then((video) => {
-			if (!video) {
-				res.sendStatus(404);
-			} else {
-				res.sendStatus(204);
-			}
+		.then(handleRecordExists)
+		.then((video) => video.remove())
+		.then(() => {
+			res.sendStatus(204);
 		})
 		.catch(next);
 });
