@@ -1,18 +1,20 @@
 const mongoose = require('mongoose');
-mongoose.Promise = Promise;
 
-let mongoURI = '';
-if (process.env.NODE_ENV === 'production') {
-	mongoURI = process.env.DB_URL;
-} else {
-	mongoURI = 'mongodb://localhost/umusicvid';
-}
+const mongoURI =
+	process.env.NODE_ENV === 'production'
+		? process.env.MONGODB_URI
+		: 'mongodb://localhost/umusicvid';
 
 mongoose
-	.connect(mongoURI, { useNewUrlParser: true })
+	.connect(mongoURI, {
+		useNewUrlParser: true,
+		useCreateIndex: true,
+		useUnifiedTopology: true,
+		useFindAndModify: false,
+	})
 	.then((instance) =>
-		console.log(`connected to db: ${instance.connections[0].name}`)
+		console.log(`Connected to db: ${instance.connections[0].name}`)
 	)
-	.catch((error) => console.log('connection failed!', error));
+	.catch((error) => console.log('Connection failed!', error));
 
 module.exports = mongoose;
