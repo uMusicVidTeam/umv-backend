@@ -7,10 +7,8 @@ router.get('/', (req, res) => {
 	Video.find({}).then((videos) => res.json(videos));
 });
 
-router.get('/:title', (req, res) => {
-	Video.find({
-		title: { $regex: new RegExp(req.params.title, 'ig') },
-	}).then((videos) => res.json(videos));
+router.get('/:id', (req, res) => {
+	Video.findById(req.params.id).then((videos) => res.json(videos));
 });
 
 router.post('/', (req, res) => {
@@ -33,10 +31,8 @@ router.put('/:id', (req, res) => {
 });
 
 // delete
-router.delete('/:title', (req, res) => {
-	Video.findOneAndDelete({
-		title: { $regex: new RegExp(req.params.title, 'ig') },
-	}).then(() => {
+router.delete('/:id', (req, res) => {
+	Video.findByIdAndDelete(req.params.id).then(() => {
 		Video.find({}).then((allVideos) => {
 			res.json(allVideos);
 		});
