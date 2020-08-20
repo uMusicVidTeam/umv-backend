@@ -24,11 +24,12 @@ router.post('/', (req, res) => {
 
 // update
 router.put('/:id', (req, res) => {
-	const video = req.body
-	Video.findByIdAndUpdate(req.params.id, video, {new: true})
-	.then((video) => {
-		res.json(video);
-	})
+	const video = req.body;
+	Video.findByIdAndUpdate(req.params.id, video, { new: true }).then(() => {
+		Video.find({}).then((allVideos) => {
+			res.json(allVideos);
+		});
+	});
 });
 
 // delete
