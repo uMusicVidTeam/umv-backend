@@ -2,22 +2,24 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-const videoController = require('./controllers/videos');
-const userController = require('./controllers/users');
-
 const app = express();
+
 
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+const videoController = require('./controllers/videos');
+app.use('/api/videos', videoController);
+
+const userController = require('./controllers/users');
+app.use('/api', userController);
+
 app.get('/', (req, res) => {
 	res.redirect('/api/videos');
 });
 
-app.use('/api/videos', videoController);
-app.use('/api', userController);
 
 
 // The last middleware receives any error as its first argument
