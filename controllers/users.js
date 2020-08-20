@@ -32,7 +32,7 @@ router.post('/signup', (req, res, next) => {
 
 // SIGN IN
 // POST /api/signin
-router.post('/signin', (req, res, next) => {
+router.post('/login', (req, res, next) => {
 	User.findOne({ email: req.body.email })
 		// Pass the user and the request to createUserToken
 		.then((user) => createUserToken(req, user))

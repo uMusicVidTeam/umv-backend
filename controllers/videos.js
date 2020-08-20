@@ -12,8 +12,8 @@ const {
 const { requireToken } = require('../middleware/auth');
 
 router.get('/', (req, res, next) => {
-	Job.find()
-		.populate('owner', 'email -_id')
+	Video.find({})
+		// .populate('owner', 'email -_id')
 		.then((videos) => res.json(videos))
 		.catch(next);
 });
