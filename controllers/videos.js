@@ -6,7 +6,10 @@ const Video = require('../models/Video');
 const {
 	handleValidateId,
 	handleRecordExists,
+	handleValidateOwnership,
 } = require('../middleware/custom_errors');
+
+const { requireToken } = require('../middleware/auth');
 
 router.get('/', (req, res, next) => {
 	Job.find()
@@ -23,8 +26,8 @@ router.get('/:id', handleValidateId, (req, res, next) => {
 		.catch(next);
 });
 
-router.post('/', (req, res, next) => {
-	Video.create(req.body)
+router.post('/', requireToken, (req, res, next) => {
+	Video.create({ ...req.body, owner: req.user._id })
 		.then(() => {
 			Video.find().then((allVideos) => {
 				res.status(201).json(allVideos);
@@ -34,23 +37,23 @@ router.post('/', (req, res, next) => {
 });
 
 // update
-router.put('/:id', handleValidateId, (req, res, next) => {
-	Video.findOneAndUpdate({ _id: req.params.id }, req.body, {
-		new: true,
-	})
+router.put('/:id', handleValidateId, requireToken, (req, res, next) => {
+	Video.findById(req.params.id)
 		.then(handleRecordExists)
+		.then((video) => handleValidateOwnership(req, video))
+		.then((video) => video.set(req.body).save())
 		.then((video) => {
 			res.json(video);
 		})
 		.catch(next);
 });
 
-// delete
-router.delete('/:id', handleValidateId, (req, res, next) => {
-	Video.findOneAndDelete({
-		_id: req.params.id,
-	})
+// DESTROY
+// DELETE api/jobs/5a7db6c74d55bc51bdf39793
+router.delete('/:id', handleValidateId, requireToken, (req, res, next) => {
+	Video.findById(req.params.id)
 		.then(handleRecordExists)
+		.then((video) => handleValidateOwnership(req, video))
 		.then((video) => video.remove())
 		.then(() => {
 			res.sendStatus(204);
